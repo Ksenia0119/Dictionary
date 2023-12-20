@@ -1,29 +1,47 @@
-﻿#include<string>
+﻿//@author Maltseva K.V.
+
+
+#include<string>
 #include <iostream>
 #include"Dictionary.h"
-
+#include"TestDictionary.h"
 
 using namespace std;
 int main() {
 
-    setlocale(LC_ALL, "ru");
-    //Dictionary<int, string> dict;
-    Dictionary<int, int> dict;
- ///*   dict.Insert(42, "Иван");
- //   dict.Insert(55, "Филипп");
- //   dict.Insert(17, "Савелий");*/
-    dict.Insert(42, 6);
-    dict.Insert(55, 12);
-    dict.Insert(17,3);
-    
-        std::cout << "Поиск по ключу " << dict.Get(42) << std::endl;
-  
-  
+   setlocale(LC_ALL, "ru");
+
+   try {
+       Dictionary<int, int> dict;
+       dict.Insert(42, 6);
+       dict.Insert(55, 12);
+       dict.Insert(17, 3);
+       dict.Insert(2, 3);
+       dict.Insert(1, 3);
+       dict.Insert(2, 4);
+       dict.Remove(1);
+       cout << "Поиск по ключу " << dict.Get(42) << endl;
 
 
-   dict.PrintTreeAVL();
+       bool result = dict.Search(55);
+       if (result) {
+           cout << "Элемент с ключом 55 найден." << endl;
+       }
+       else {
+           cout << "Элемент с ключом 55 не найден." << endl;
+       }
+       dict.PrintTreeAVL();
+       cout<<"Количество пар ключ-значение = " << dict.CountNode()<<endl;
 
-   /* dict.Remove(55);
-    dict.PrintTreeAVL();*/
+   } catch (const invalid_argument& e) {
+           cout << e.what() << endl;
+          }
+   
+   cout << "Тестирование" << endl;
+   TestInsert();
+   TestRemove();
+   TestGet();
+   TestContains();
+
     return 0;
 }

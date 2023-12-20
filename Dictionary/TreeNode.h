@@ -197,12 +197,12 @@ void PrintTree(TreeNode<T>* node, int level) {
     if (node != nullptr)
     {
         //печатать правое поддерево узла node
-        PrintTree(node->Right(), level + 1);
+        PrintTree(node->Right(), level);
         //выровнять текущий уровень и вывести поле данных
         IndentBlanks(indentBlock * level);
         cout << node->data << endl;
         //печатать левое поддерево узла node
-        PrintTree(node->Left(), level + 1);
+        PrintTree(node->Left(), level);
     }
 }
 

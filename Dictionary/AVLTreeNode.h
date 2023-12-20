@@ -160,6 +160,8 @@ public:
             //  и устанавливаем его результат в качестве правого потомка текущего узла, использу€ метод SetRight().
             this->SetRight(dynamic_cast<AVLTreeNode<T>*>(this->Right()->AddNodeAVL(item)));
         }
+
+    
         //вызываем перебалансировку дл€ текущего узла
         return BalanceTree(this);
     }
