@@ -93,6 +93,17 @@ void TestRemove() {
     assert(dict1.Search(2) == false);
     //Проверяем, что количество пар уменьшилось
     assert(dict1.CountNode() == 4);
+
+    try {
+    //Создаем словарь
+    Dictionary<int, double> dict2;
+    assert(dict.Search(7) == false);
+    // удаляем несущ.ключ
+     dict2.Remove(7);
+    }//ловим исключение
+    catch (const invalid_argument& e) {
+        //  cout << e.what() << endl;
+    }
     cout << "Тест удаления пройден " << endl;
 }
 // Тестирование получения значения по ключу
@@ -129,6 +140,13 @@ void TestGet() {
     assert(dict1.Get(9) == "Оля");
     assert(dict1.Get(23) == "Вася");
   
+
+    //Создаем пустой словарь
+    Dictionary<int, double> dict2;
+    assert(dict.Search(7) == false);
+
+    //Проверяем , что для несуществующего ключа будет дефолтное значение
+     assert (dict2.Get(7)==0);
     }
     catch (const invalid_argument& e) {
       //  cout << e.what() << endl;
@@ -169,4 +187,36 @@ void TestContains() {
     assert(dict.Search(19) == false);
 
     cout << "Тест проверки наличия ключей пройден " << endl;
+}
+
+// Тестирование замены значения по существующему ключу
+void TestUpdate() {
+    //Создаем словарь
+    Dictionary<int, double> dict = FillDictionary();
+
+    assert(dict.Get(1) == 20);
+    dict.Update(1, 88);
+    assert(dict.Get(1) == 88);
+
+
+    //Создаем словарь
+    Dictionary<int, string> dict1 = FillStrDictionary();
+
+    assert(dict1.Get(1) == "Аня");
+    dict1.Update(1, "Степа");
+    assert(dict1.Get(1) == "Степа");
+
+    try {
+        //Создаем словарь пустой словарь
+        Dictionary<int, string> dict2;
+        //Мнтод изменения не сработает по несущ.ключу
+        dict2.Update(1, "Толя");
+        //вернуть дефолтное значение
+        assert(dict2.Get(1) == " ");
+
+    }
+    catch (const invalid_argument& e) {
+        //  cout << e.what() << endl;
+    }
+    cout << "Тест замены значения по существующему ключу ключей пройден " << endl;
 }

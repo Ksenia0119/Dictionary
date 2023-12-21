@@ -14,7 +14,7 @@ public:
 	T value;
     //Конструктор по умолчанию 
     KeyValue() : key(), value() {} 
-    //Конструктор с параметрами
+    //Конструктор с параметрами ключ, значение 
     KeyValue(const K& key, const T& value) : key(key), value(value) {}
    
     //Перегрузка оператора присваивания
@@ -67,10 +67,11 @@ public:
 };
 //Словарь, построенный по принципу AVL дерева
 template<class K, class T>
-class Dictionary :public AVLTree<KeyValue<K, T>> {
+class Dictionary :protected AVLTree<KeyValue<K, T>> {
 
 public:
-   //вставка новой пары в дерево
+    //вставка новой пары в дерево
+    // если ключ уже существует, его значение не заменится
     void Insert(const K& key, const T& value) {
         //создается объект KeyValue<K, T> с переданными ключом и значением
         KeyValue<K, T> keyValue(key, value);
@@ -81,6 +82,9 @@ public:
   
     //удаление ключа из дерева
     void Remove(const K& key) {
+        if (!Search(key)) {
+            throw invalid_argument("Ключ не найден, удаление невозможно");
+        }
         //Создается объект KeyValue<K, T> с переданным ключом и пустым значением
         KeyValue<K, T> keyValue(key, T());
         //вызывается удаление из базового класса
@@ -96,6 +100,7 @@ public:
         }
         //узел не найден, выбрасывается исключение
         throw  invalid_argument("Ключ не найден");
+        //если узла нет, вернуть дефолтное
         return T(); 
     }
     //поиск элемента по ключу
@@ -113,21 +118,21 @@ public:
 
     //подсчет узлов дерева
     int CountNode() {
-        //вызываем метод базового класса для печати
+        //вызываем метод базового класса для подсчета пар значении в дереве
        return CountNodes(AVLTree<KeyValue<K, T>>::GetRoot());
     }
+     //замена значения у существующего ключа
+    //если ключа нет, ничего не будет
+    void Update(const K& key, const T& value) {
+       //вызываем метод базового класса для поиска
+      KeyValue<K, T> keyValue(key, value);
+      AVLTreeNode < KeyValue < K, T>>* node = AVLTree < KeyValue < K, T>>::Find(keyValue);
+      if (node != nullptr) {
+          node->data.value = value; // Заменяем значение существующего элемента
 
-
-
-    //template<class K, class T>
-  //void Update(const K& key, const T& value) {
-  //    KeyValue<K, T> keyValue(key, value);
-  //    AVLTreeNode < KeyValue < K, T>>* node = AVLTree < KeyValue < K, T>>::Find(keyValue);
-  //    if (node != nullptr) {
-  //        node->data.value = value; // Заменяем значение существующего элемента
-  //       
-  //    }
-  //   
-  //}
+      }
+      else 
+          cout << "Ключ не существует"<<endl;
+         }
 
 };

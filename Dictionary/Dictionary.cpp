@@ -20,6 +20,8 @@ int main() {
        dict.Insert(1, 3);
        dict.Insert(2, 4);
        dict.Remove(1);
+       dict.Update(2, 5);
+       dict.Update(120, 5);
        cout << "Поиск по ключу " << dict.Get(42) << endl;
 
 
@@ -42,6 +44,6 @@ int main() {
    TestRemove();
    TestGet();
    TestContains();
-
+   TestUpdate();
     return 0;
 }
